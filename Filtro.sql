@@ -116,3 +116,4 @@ CREATE TABLE proceso_produccion (
   foreign key (ID_Empleado) references empleado(ID_Empleado),
   foreign key (ID_Maquinaria) references maquinaria(ID_Maquinaria)
 );
+
