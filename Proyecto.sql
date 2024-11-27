@@ -7,7 +7,7 @@ CREATE TABLE cliente (
   Nombre VARCHAR(100) NOT NULL,
   Apellido VARCHAR(100) NOT NULL,
   Direccion VARCHAR(255),
-  Telefono VARCHAR(20) NOT NULL UNIQUE,
+  Telefono VARCHAR(20) NOT NULL,
   Correo_Electronico VARCHAR(100) UNIQUE
 );
 
@@ -52,12 +52,11 @@ CREATE TABLE compra (
   Total_Compra DECIMAL(10,2) NOT NULL,
   FOREIGN KEY (ID_Proveedor) REFERENCES proveedor(ID_Proveedor)
   );
-
 CREATE TABLE detalle_compra (
   ID_Detalle_Compra INT PRIMARY KEY AUTO_INCREMENT,
   ID_Compra INT,
   ID_Producto INT,
-  Cantidad INT NOT NULL CHECK(Cantidad > 0),
+  Cantidad INT NOT NULL,
   Precio_Compra DECIMAL(10,2) NOT NULL CHECK(Precio_Compra >= 0),
   foreign key (ID_Compra) references compra(ID_Compra),
   foreign key (ID_Producto) references producto(ID_Producto)
