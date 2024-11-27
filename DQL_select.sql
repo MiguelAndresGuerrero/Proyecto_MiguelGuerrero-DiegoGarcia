@@ -1,13 +1,14 @@
-use proyecto;
+use finca_campus;
 
 -- nombre de todos los productos almacenados en inventario 
 select producto.Nombre from inventario
 inner join producto on producto.ID_Producto = inventario.ID_Producto;
 
 -- detalles de los productos almacenados en el inventario 
-select producto.nombre, producto.categoria, detalle_producto_precio.precio, detalle_producto_precio.Fecha_Registro from inventario
-inner join producto on producto.ID_Producto = inventario.ID_Producto,
-inner join detalle_producto_precio dpp on dpp.ID_Producto = producto.ID_producto;
+select producto.Nombre, Precio from detalle_producto_precio dpp
+inner join producto on dpp.ID_Producto = producto.ID_Producto
+inner join inventario on producto.ID_Producto = inventario.ID_Producto
+where ID_Inventario;
 
 -- Consultas sobre Inventario
 -- Consultar todos los productos en inventario y su cantidad:
@@ -20,7 +21,7 @@ JOIN inventario i ON p.ID_Producto = i.ID_Producto;
 SELECT p.Nombre, i.Cantidad
 FROM producto p
 JOIN inventario i ON p.ID_Producto = i.ID_Producto
-WHERE i.Cantidad < 10; -- Cambia 10 por el umbral deseado.
+WHERE i.Cantidad < 100; -- Cambia 10 por el umbral deseado.
 -- Contar el total de productos en inventario:
 
 SELECT COUNT(*) AS Total_Productos
