@@ -1,124 +1,173 @@
-CREATE database finca_campus;
+create database finca_campus;
 
 use finca_campus;
 
--- drop database finca_campus;
-
+-- Crear tabla Cliente
 CREATE TABLE cliente (
-  ID_Cliente INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  ID_Cliente INT PRIMARY KEY AUTO_INCREMENT,
   Nombre VARCHAR(100) NOT NULL,
   Apellido VARCHAR(100) NOT NULL,
-  Direccion VARCHAR(255) NOT NULL,
-  Telefono VARCHAR(20) DEFAULT null,
-  Correo_Electronico VARCHAR(100) DEFAULT null
+  Direccion VARCHAR(255),
+  Telefono VARCHAR(20) NOT NULL,
+  Correo_Electronico VARCHAR(100) UNIQUE
 );
 
+-- Crear tabla Proveedor
 CREATE TABLE proveedor (
-  ID_Proveedor INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  ID_Proveedor INT PRIMARY KEY AUTO_INCREMENT,
   Nombre VARCHAR(100) NOT NULL,
-  Contacto VARCHAR(100) DEFAULT null,
-  Telefono VARCHAR(20) DEFAULT null,
-  Correo_Electronico VARCHAR(100) DEFAULT null,
-  Direccion VARCHAR(255) NOT NULL
+  Contacto VARCHAR(100),
+  Telefono VARCHAR(20) NOT NULL UNIQUE,
+  Correo_Electronico VARCHAR(100) UNIQUE,
+  Direccion VARCHAR(255)
 );
 
-CREATE TABLE compra (
-  ID_Compra INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  ID_Proveedor INT DEFAULT null,
-  Fecha_Compra DATE NOT NULL,
-  Total_Compra DECIMAL(10,2) NOT NULL,
-  FOREIGN KEY (ID_Proveedor)
-  REFERENCES proveedor (ID_Proveedor));
+-- Crear tabla Empleado
+CREATE TABLE empleado (
+  ID_Empleado INT PRIMARY KEY AUTO_INCREMENT,
+  Nombre VARCHAR(100) NOT NULL,
+  Apellido VARCHAR(100) NOT NULL,
+  Cargo VARCHAR(50) NOT NULL,
+  Fecha_Ingreso DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  Salario DECIMAL(10,2) NOT NULL CHECK(Salario >= 0)
+);
 
+-- Crear tabla Maquinaria
+CREATE TABLE maquinaria (
+  ID_Maquinaria INT PRIMARY KEY AUTO_INCREMENT,
+  Nombre VARCHAR(100) NOT NULL,
+  Tipo VARCHAR(50) NOT NULL,
+  Estado ENUM('OPERATIVA', 'REPARACION', 'OBSOLETA') NOT NULL,
+  Fecha_Adquisicion DATETIME NOT NULL,
+  Costo DECIMAL(10,2) NOT NULL
+);
+
+-- Crear tabla Producto
 CREATE TABLE producto (
-  ID_Producto INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  ID_Producto INT PRIMARY KEY AUTO_INCREMENT,
   Nombre VARCHAR(100) NOT NULL,
   Categoria VARCHAR(50) NOT NULL,
-  Unidad_Medida VARCHAR(20) NOT NULL
+  Unidad_Medida VARCHAR(100) NOT NULL
 );
 
+
+-- Crear tabla Compra
+CREATE TABLE compra (
+  ID_Compra INT PRIMARY KEY AUTO_INCREMENT,
+  ID_Proveedor INT,
+  Fecha_Compra DATETIME NOT NULL,
+  Total_Compra DECIMAL(10,2) NOT NULL,
+  FOREIGN KEY (ID_Proveedor) REFERENCES proveedor(ID_Proveedor)
+  );
+  
+  -- Crear tabla Detalles de compra
 CREATE TABLE detalle_compra (
-  ID_Detalle_Compra INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  ID_Compra INT DEFAULT null,
-  ID_Producto INT DEFAULT null,
+  ID_Detalle_Compra INT PRIMARY KEY AUTO_INCREMENT,
+  ID_Compra INT,
+  ID_Producto INT,
   Cantidad INT NOT NULL,
-  Precio_Compra DECIMAL(10,2) NOT NULL,
-  Subtotal DECIMAL(10,2) NOT NULL,
+  Precio_Compra DECIMAL(10,2) NOT NULL CHECK(Precio_Compra >= 0),
   foreign key (ID_Compra) references compra(ID_Compra),
   foreign key (ID_Producto) references producto(ID_Producto)
 );
 
+
+-- Crear tabla Detalles de Precio del Producto
 CREATE TABLE detalle_producto_precio (
-  ID_Detalle_Precio INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  ID_Producto INT DEFAULT null,
-  Precio DECIMAL(10,2) NOT NULL,
-  Fecha_Registro DATE NOT NULL,
+  ID_Detalle_Precio INT PRIMARY KEY AUTO_INCREMENT,
+  ID_Producto INT,
+  Precio DECIMAL(10,2) NOT NULL CHECK(Precio >= 0),
+  Fecha_Registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   foreign key (ID_Producto) references producto(ID_Producto)
 );
 
+
+-- Crear tabla Venta
 CREATE TABLE venta (
-  ID_Venta INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  ID_Cliente INT DEFAULT null,
-  Fecha_Venta DATE NOT NULL,
-  Total_Venta DECIMAL(10,2) NOT NULL,
+  ID_Venta INT PRIMARY KEY AUTO_INCREMENT,
+  ID_Cliente INT,
+  Fecha_Venta DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  Total_Venta DECIMAL(10,2) NOT NULL CHECK(Total_Venta >= 0),
   foreign key (ID_Cliente) references cliente(ID_Cliente)
 );
 
+-- Crear tabla Detalles de Venta
 CREATE TABLE detalle_venta (
-  ID_Detalle INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  ID_Venta INT DEFAULT null,
-  ID_Producto INT DEFAULT null,
-  Cantidad INT NOT NULL,
-  Precio_Venta DECIMAL(10,2) NOT NULL,
-  Subtotal DECIMAL(10,2) NOT NULL,
+  ID_Detalle INT PRIMARY KEY AUTO_INCREMENT,
+  ID_Venta INT,
+  ID_Producto INT,
+  Cantidad INT NOT NULL CHECK(Cantidad > 0),
+  Precio_Venta DECIMAL(10,2) NOT NULL CHECK(Precio_Venta >= 0),
   foreign key (ID_Venta) references venta(ID_Venta),
   foreign key (ID_Producto) references producto(ID_Producto)
 );
 
-CREATE TABLE empleado (
-  ID_Empleado INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  Nombre VARCHAR(100) NOT NULL,
-  Apellido VARCHAR(100) NOT NULL,
-  Cargo VARCHAR(50) NOT NULL,
-  Fecha_Ingreso DATE NOT NULL,
-  Salario DECIMAL(10,2) NOT NULL
-);
-
+-- Crear tabla Emplado Rol
 CREATE TABLE empleado_rol (
-  ID_Empleado_rol INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  ID_Empleado INT DEFAULT null,
-  Rol VARCHAR(50) DEFAULT null,
+  ID_Empleado_rol INT PRIMARY KEY AUTO_INCREMENT,
+  ID_Empleado INT,
+  Rol ENUM('ADMIN', 'SUPERVISOR', 'OPERADOR', 'EMPLEADO', 'PROVEEDOR') NOT NULL,
   foreign key (ID_Empleado) references empleado(ID_Empleado)
 );
 
+-- Crear tabla Inventario
 CREATE TABLE inventario (
-  ID_Inventario INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  ID_Producto INT DEFAULT null,
-  Cantidad INT NOT NULL,
-  Fecha_Actualizacion DATE NOT NULL,
+  ID_Inventario INT PRIMARY KEY AUTO_INCREMENT,
+  ID_Producto INT,
+  Cantidad INT NOT NULL CHECK(Cantidad >= 0),
+  Fecha_Actualizacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   foreign key (ID_Producto) references producto(ID_Producto)
 );
 
-CREATE TABLE maquinaria (
-  ID_Maquinaria INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  Nombre VARCHAR(100) NOT NULL,
-  Tipo VARCHAR(50) NOT NULL,
-  Estado VARCHAR(50) NOT NULL,
-  Fecha_Adquisicion DATE NOT NULL,
-  Costo DECIMAL(10,2) NOT NULL
-);
-
+-- Crear tabla Proceso de Produccion
 CREATE TABLE proceso_produccion (
-  ID_Proceso INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  ID_Producto INT DEFAULT null,
-  ID_Empleado INT DEFAULT null,
-  ID_Maquinaria INT DEFAULT null,
-  Fecha_Inicio DATE NOT NULL,
-  Fecha_Fin DATE DEFAULT null,
-  Cantidad_Producida INT NOT NULL,
+  ID_Proceso_produccion INT PRIMARY KEY AUTO_INCREMENT,
+  ID_Producto INT,
+  ID_Empleado INT,
+  ID_Maquinaria INT,
+  Fecha_Inicio DATETIME NOT NULL,
+  Fecha_Fin DATETIME,
+  Cantidad_Producida INT NOT NULL CHECK(Cantidad_Producida >= 0),
   foreign key (ID_Producto) references producto(ID_Producto),
   foreign key (ID_Empleado) references empleado(ID_Empleado),
   foreign key (ID_Maquinaria) references maquinaria(ID_Maquinaria)
 );
 
+-- Crear Usuario Administrador
+CREATE USER 'adminUser'@'localhost' IDENTIFIED BY 'adminPassword';
+-- 3. Asignar todos los permisos al usuario administrador
+GRANT ALL PRIVILEGES ON finca_campus.* TO 'adminUser'@'localhost';
 
+-- Crear Usuario Vendedor
+CREATE USER 'vendedorUser'@'localhost' IDENTIFIED BY 'vendedorPassword';
+-- 5. Asignar permisos al vendedor
+GRANT SELECT, INSERT, UPDATE ON finca_campus.ventas TO 'vendedorUser'@'localhost';
+GRANT SELECT, UPDATE ON finca_campus.inventario TO 'vendedorUser'@'localhost';
+GRANT SELECT ON finca_campus.cliente TO 'vendedorUser'@'localhost';
+
+-- Crear Usuario Contador
+CREATE USER 'contadorUser'@'localhost' IDENTIFIED BY 'contadorPassword';
+-- 7. Asignar permisos al contador
+GRANT SELECT ON finca_campus.reportes_financieros TO 'contadorUser'@'localhost';
+GRANT SELECT, INSERT ON finca_campus.nomina TO 'contadorUser'@'localhost';
+
+-- Crear Usuario Empleado
+CREATE USER 'empleadoUser'@'localhost' IDENTIFIED BY 'empleadoPassword';
+-- Asignar permisos al empleado (acceso limitado a su propio registro)
+GRANT SELECT ON finca_campus.empleado TO 'empleadoUser'@'localhost';
+
+-- Crear Usuario Proveedor
+CREATE USER 'proveedorUser'@'localhost' IDENTIFIED BY 'proveedorPassword';
+-- Asignar permisos al proveedor
+GRANT SELECT, INSERT ON finca_campus.productos TO 'proveedorUser'@'localhost';
+GRANT SELECT ON finca_campus.pedidos TO 'proveedorUser'@'localhost';
+
+-- Verificar los privilegios asignados a cada usuario
+SHOW GRANTS FOR 'adminUser'@'localhost';
+SHOW GRANTS FOR 'vendedorUser'@'localhost';
+SHOW GRANTS FOR 'contadorUser'@'localhost';
+SHOW GRANTS FOR 'empleadoUser'@'localhost';
+SHOW GRANTS FOR 'proveedorUser'@'localhost';
+
+-- Mostrar todas las tablas en la base de datos finca_campus
+SHOW TABLES FROM finca_campus;
