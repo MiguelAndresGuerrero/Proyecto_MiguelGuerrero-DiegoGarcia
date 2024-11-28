@@ -102,25 +102,28 @@ WHERE dpp.Fecha_Registro = (SELECT MAX(Fecha_Registro) FROM detalle_producto_pre
 
 Además de las consultas anteriores, se han incluido las siguientes funcionalidades:
 
-Subconsultas
-Procedimientos
-Funciones
-Triggers
-Roles de Usuario y Permisos
+- Subconsultas
+
+- Procedimientos
+- Funciones
+- Triggers
+- Roles de Usuario y Permisos
 
 ## Roles de Usuario y Permisos
 
-AdminUser: Puede realizar todas las acciones en el sistema.
-vendedorUser: Accede a información básica y puede actualizar e insertar datos en las tablas venta, inventario, y cliente.
-contadorUser: Acceso a informes financieros y registros de detalles financieros.
-empleadoUser: Acceso a su propia información en la tabla empleado.
-proveedorUser: Puede acceder e insertar datos en la tabla producto.
+**AdminUser**: Puede realizar todas las acciones en el sistema.
+**vendedorUser**: Accede a información básica y puede actualizar e insertar datos en las tablas venta, inventario, y cliente.
+**contadorUser**: Acceso a informes financieros y registros de detalles financieros.
+**empleadoUser**: Acceso a su propia información en la tabla empleado.
+**proveedorUser**: Puede acceder e insertar datos en la tabla producto.
 
 ## Contribuciones
 
-Miguel Andres Guerrero 
+- Miguel Andres Guerrero Martinez 
 
-Diego Alexander Garcia Rodriguez
+
+- Diego Alexander Garcia Rodriguez
+
 
 ## Contacto
 
@@ -135,6 +138,7 @@ tu-repositorio
 
     ├── ddl.sql                     # Creación de las tablas y la base de datos
     ├── dml.sql                     # Inserción de datos iniciales
+    ├── Roles_Usuario_Permisos.sql  # Creacion de roles de usuarios y permisos
     ├── consultas
     │   ├── dql_select.sql          # Consultas select
     │   ├── dql_procedimientos.sql  # Procedimientos almacenados
