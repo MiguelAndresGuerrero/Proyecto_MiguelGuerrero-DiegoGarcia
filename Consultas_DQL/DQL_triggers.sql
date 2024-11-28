@@ -1,5 +1,7 @@
 USE finca_campus;
 
+
+
 DELIMITER $$
 -- 1. Actualizar inventario al registrar una compra
 CREATE TRIGGER ActualizarInventarioCompra
