@@ -117,13 +117,11 @@ Además de las consultas anteriores, se han incluido las siguientes funcionalida
 **empleadoUser**: Acceso a su propia información en la tabla empleado.
 **proveedorUser**: Puede acceder e insertar datos en la tabla producto.
 
-## Contribuciones
+## Contribuidores
 
-- Miguel Andres Guerrero Martinez 
+- [Miguel Andres Guerrero Martinez](https://github.com/MiguelAndresGuerrero) - 50% del codigo en todos los archivos
 
-
-- Diego Alexander Garcia Rodriguez
-
+- [Diego Alexander Garcia Rodriguez](https://github.com/DiegoAlexanderGarcia) - 50% del codigo en todos los archivos 
 
 ## Contacto
 
@@ -132,6 +130,10 @@ Para cualquier consulta sobre el proyecto, por favor contacta a:
 Correo: dgarciarodriguez370@gmail.com
 
 Correo: Guerreromiguelmartinez@gmail.com
+
+## Documentación
+
+Puedes consultar la documentación completa [aquí](https://docs.google.com/document/d/1Sh0ebEG7COqcn5aEjmS_cgWL5j7BOABnuxynLc0812E/edit?tab=t.0).
 
 sql
 tu-repositorio
