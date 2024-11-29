@@ -15,7 +15,6 @@ GRANT SELECT ON finca_campus.cliente TO 'vendedorUser'@'localhost';
 -- Crear Usuario Contador
 CREATE USER 'contadorUser'@'localhost' IDENTIFIED BY 'contadorPassword';
 -- 7. Asignar permisos al contador
-GRANT SELECT ON finca_campus.detalles TO 'contadorUser'@'localhost';
 GRANT SELECT ON finca_campus.maquinaria TO 'contadorUser'@'localhost';
 GRANT SELECT ON finca_campus.compra TO 'contadorUser'@'localhost';
 GRANT SELECT ON finca_campus.detalle_compra TO 'contadorUser'@'localhost';
