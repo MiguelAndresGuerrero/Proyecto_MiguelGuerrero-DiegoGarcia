@@ -134,6 +134,7 @@ Correo: Guerreromiguelmartinez@gmail.com
 ## Documentación
 
 Puedes consultar la documentación completa [aquí](https://docs.google.com/document/d/1Sh0ebEG7COqcn5aEjmS_cgWL5j7BOABnuxynLc0812E/edit?tab=t.0).
+Video de la base de datos [aqui](https://youtu.be/VV_5JIUofXw)
 
 sql
 tu-repositorio
